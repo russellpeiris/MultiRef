@@ -2,19 +2,28 @@ import { useRef, forwardRef, useState, useImperativeHandle } from 'react';
 import './App.css'
 
 function App() {
+  // create a ref register 
+  const componentRefs = useRef({
+    input: null,
+    checkbox: null
+  });
 
-  const inputRef = useRef();
-    const checkboxRef = useRef();
+  const registerRef = (name, ref) => {
+    componentRefs.current[name] = ref;
+  }
 
-    const handleButtonClick = () => {
-        console.log(inputRef.current.getValue());
-        console.log(checkboxRef.current.getChecked());
-    }
-
+  const handleButtonClick = () => {
+    console.log(componentRefs.current.input.getValue());
+    console.log(componentRefs.current.checkbox.getChecked());
+  }
     return (
         <div>
-            <InputComponent ref={inputRef} />
-            <CheckBoxComponent ref={checkboxRef} />
+            <InputComponent ref={
+              (ref) => registerRef('input', ref)
+            } />
+            <CheckBoxComponent ref={
+              (ref) => registerRef('checkbox', ref)
+            } />
             <button onClick={handleButtonClick}>Submit</button>
         </div>
     );
